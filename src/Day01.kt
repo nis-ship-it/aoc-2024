@@ -1,21 +1,46 @@
+import java.io.File
+import kotlin.math.abs
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
+
+    val lines = File("./Day01.txt").readLines()
+    val leftList = mutableListOf<Int>()
+    val rightList = mutableListOf<Int>()
+
+    for(line in lines){
+        val numbers = line.split(Regex("\\s{3,}"))
+        leftList.add(numbers[0].toInt())
+        rightList.add(numbers[1].toInt())
     }
+    q2(leftList, rightList)
 
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
-
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
-
-    // Or read a large test input from the `src/Day01_test.txt` file:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
-
-    // Read the input from the `src/Day01.txt` file.
-    val input = readInput("Day01")
-    part1(input).println()
-    part2(input).println()
 }
+
+
+
+fun q1(leftList: MutableList<Int>, rightList: MutableList<Int>) {
+
+    leftList.sort()
+    rightList.sort()
+
+    var distance = 0
+
+    for (i in leftList.indices){
+        distance += abs(rightList[i] - leftList[i])
+    }
+
+    println(distance)
+}
+
+fun q2(leftList: MutableList<Int>, rightList: MutableList<Int>) {
+    var similarityScore = 0
+
+    for (leftValue in leftList) {
+        val countRight = rightList.count() { it == leftValue }
+
+        similarityScore += leftValue * countRight
+    }
+
+    println(similarityScore)
+}
+
